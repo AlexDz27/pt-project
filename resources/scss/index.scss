@@ -1,0 +1,8 @@
+@import '~bootstrap';
+@tailwind utilities;
+
+$color: green;
+
+body {
+  color: $color;
+}

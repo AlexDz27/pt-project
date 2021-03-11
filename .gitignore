@@ -1,13 +1,19 @@
-/node_modules
-/public/hot
-/public/storage
+# Backend
 /storage/*.key
+
 /vendor
+
 .env
 .env.backup
+
 .phpunit.result.cache
+
 docker-compose.override.yml
-Homestead.json
-Homestead.yaml
+
+# Frontend
+/node_modules
+
+/public/css
+/public/js
+
 npm-debug.log
-yarn-error.log
