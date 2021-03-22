@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Passport;
 
 class UserService
 {
@@ -15,12 +16,20 @@ class UserService
   const VALIDATION_FAILURE_CODE = 422;
 
   /**
-   * Send access token to the user so that they could proceed with the app.
+   * If the user is not logged in, send access token to the user so that they could proceed with the app.
    * @param $credentials
    * @return Response
    */
   public function signIn($credentials)
   {
+    if (Auth::check()) {
+      return response([
+        'success' => false,
+        'message' => 'You are already signed in.'
+      ])->send();
+      die();
+    }
+
     $this->validateSignIn($credentials);
 
     if (Auth::attempt($credentials)) {
@@ -44,7 +53,7 @@ class UserService
   }
 
   /**
-   * Sign up and return new user.
+   * Sign up new user and send access token to the user so that they could proceed with the app.
    * @param $signUpData
    * @return Response
    */
@@ -70,21 +79,21 @@ class UserService
     ])->send();
   }
 
+  /**
+   * Sign user out. Destroy the user's access token.
+   * @param $signUpData
+   * @return Response
+   */
   public function signOut()
   {
-    if (Auth::check()) {
-      $token = Auth::user()->token();
-      $token->revoke();
+    $token = Auth::user()->token();
+    $token->revoke();
 
-      return response([
-        'success' => true,
-        'message' => 'You have been successfully signed out.'
-      ])->send();
-    }
+    Passport::token()->where('user_id', Auth::id())->delete();
 
     return response([
-      'success' => false,
-      'message' => 'You are already signed in.'
+      'success' => true,
+      'message' => 'You have been successfully signed out.'
     ])->send();
   }
 
@@ -102,10 +111,11 @@ class UserService
     ]);
 
     if ($validator->fails()) {
-      return response([
+      response([
         'message' => 'You have errors in your sign-up form request.',
         'errors' => $validator->errors(),
       ], self::VALIDATION_FAILURE_CODE)->send();
+      die();
     }
   }
 
@@ -122,10 +132,11 @@ class UserService
     ]);
 
     if ($validator->fails()) {
-      return response([
+      response([
         'message' => 'You have errors in your sign-in form request.',
         'errors' => $validator->errors(),
       ], self::VALIDATION_FAILURE_CODE)->send();
+      die();
     }
   }
 }
