@@ -1,6 +1,4 @@
 # Backend
-/storage/*.key
-
 /vendor
 
 .env
