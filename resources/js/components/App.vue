@@ -1,12 +1,17 @@
 <template>
-  <h1>{{ text }}</h1>
+  <router-view></router-view>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      text: 'It works!'
+      propertySearch: {
+        location: null,
+        startDate: null,
+        endDate: null,
+        bedroomType: null
+      }
     }
   }
 }

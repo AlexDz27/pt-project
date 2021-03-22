@@ -1,0 +1,18 @@
+.hero {
+  height: 100vh;
+  background-image: url('/img/hero.jpg');
+  background-size: cover;
+  position: relative;
+}
+
+.call-to-action__part {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 91px;
+}
+
+.hero__call-to-action {
+  position: absolute;
+  top: 57%;
+  left: 4%;
+}

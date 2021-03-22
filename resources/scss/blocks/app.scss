@@ -1,0 +1,5 @@
+@use '../variables';
+
+.app__nav {
+  background-color: variables.$app__nav-bg-color;
+}

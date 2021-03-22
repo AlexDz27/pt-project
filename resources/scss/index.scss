@@ -1,8 +1,7 @@
 @import '~bootstrap';
 @tailwind utilities;
 
-$color: green;
-
-body {
-  color: $color;
-}
+@import 'variables';
+@import 'blocks/app';
+@import 'blocks/hero';
+@import 'blocks/property-search';
