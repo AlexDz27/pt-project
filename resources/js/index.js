@@ -4,11 +4,11 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { createApp } from 'vue';
 import App from './components/App';
 import Home from './components/Home';
-import Foo from "./components/Foo";
+import About from './components/About';
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/foo', component: Foo }
+  { path: '/about', component: About }
 ];
 
 const router = createRouter({

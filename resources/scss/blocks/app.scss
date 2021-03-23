@@ -1,5 +1,11 @@
 @use '../variables';
 
+.app {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
 .app__nav {
   background-color: variables.$app__nav-bg-color;
 }

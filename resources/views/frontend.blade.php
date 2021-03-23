@@ -16,9 +16,8 @@
 </head>
 <body>
 
-<div id="app"></div>
+<div id="app" class="app"></div>
 
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 <script src="/js/index.js"></script>
 </body>
 </html>

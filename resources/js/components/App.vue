@@ -1,17 +1,24 @@
 <template>
-  <router-view></router-view>
+  <Header />
+
+  <Content />
+
+  <Footer />
 </template>
 
 <script>
+import Header from './Header';
+import Content from './Content';
+import Footer from './Footer';
+
 export default {
+  components: {
+    Header, Content, Footer
+  },
+
   data() {
     return {
-      propertySearch: {
-        location: null,
-        startDate: null,
-        endDate: null,
-        bedroomType: null
-      }
+
     }
   }
 }

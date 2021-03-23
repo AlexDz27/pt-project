@@ -2,6 +2,8 @@
 @tailwind utilities;
 
 @import 'variables';
+@import 'global';
 @import 'blocks/app';
 @import 'blocks/hero';
 @import 'blocks/property-search';
+@import 'blocks/footer';
