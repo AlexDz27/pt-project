@@ -4,9 +4,13 @@
       <div class="col-4"></div>
 
       <div class="col">
-        <h1 class="text-center">Sign in</h1>
+        <h1 class="text-center">Sign up</h1>
 
         <form @submit.prevent="">
+          <div class="mb-3">
+            <label for="name" class="form-label">Username</label>
+            <input class="form-control" id="name" required>
+          </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
@@ -18,7 +22,7 @@
               Your password must be at least 3 characters long.
             </div>
           </div>
-          <button type="submit" class="btn btn-outline-primary w-100 mt-4">Sign in</button>
+          <button type="submit" class="btn btn-outline-primary w-100 mt-4">Sign up</button>
         </form>
 
         <div class="text-center text-xl mt-4">

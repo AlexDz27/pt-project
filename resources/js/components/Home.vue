@@ -1,18 +1,8 @@
 <template>
   <section class="hero">
-    <header>
-      <nav class="app__nav navbar navbar-light py-4 bg-pur">
-        <div class="container justify-content-end">
-          <button class="btn btn-outline-primary">Sign in</button>
-        </div>
-      </nav>
-    </header>
-
     <section class="d-flex justify-content-center">
       <form @submit.prevent="log" class="property-search app__property-search">
         <input class="form-control mb-2" name="location" placeholder="Enter location" required>
-        <input class="form-control mb-2" name="start-date" type="date">
-        <input class="form-control mb-2" name="end-date" type="date">
         <label class="text-white" for="bedroom">Select type of the bedroom:</label>
         <select class="form-select mb-2" name="bedroom" id="bedroom">
           <option value="one">1</option>
@@ -30,10 +20,7 @@
         <span class="call-to-action__part bg-indigo-400">hotels & make assets! 💰</span>
       </h1>
     </div>
+
+    <router-link to="/about">About page</router-link>
   </section>
 </template>
-
-<script>
-export default {
-}
-</script>
