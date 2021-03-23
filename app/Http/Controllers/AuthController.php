@@ -21,7 +21,7 @@ class AuthController extends Controller
   public function signUp(Request $request)
   {
     $user = $this->userService->signUp($request->post());
-    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+    $token = $user->createToken('access_token')->accessToken;
 
     return response([
       'message' => 'You have been successfully signed up.',
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
     /** @var User $user */
     $user = Auth::user();
-    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+    $token = $user->createToken('access_token')->accessToken;
 
     return response([
       'message' => "You have been successfully signed in. Welcome, {$user->name}.",
