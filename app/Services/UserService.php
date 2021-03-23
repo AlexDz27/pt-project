@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Passport;
 
@@ -15,48 +16,11 @@ class UserService
   const PASSWORD_MIN_CHARS = 3;
 
   /**
-   * If the user is not logged in, send access token to the user so that they could proceed with the app.
-   * @param $credentials
-   * @return Response
-   */
-  public function signIn($credentials): Response
-  {
-    if (Auth::check()) {
-      return response([
-        'success' => false,
-        'message' => 'You are already signed in.'
-      ])->send();
-      die();
-    }
-
-    $this->validateSignIn($credentials);
-
-    if (Auth::attempt($credentials)) {
-      /** @var User $user */
-      $user = Auth::user();
-
-      $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-
-      return response([
-        'success' => true,
-        'message' => "You have been successfully signed in. Welcome, {$user->name}.",
-        'user' => $user,
-        'token' => $token
-      ])->send();
-    }
-
-    return response([
-      'success' => false,
-      'message' => 'Name or password mismatch. Try using different name / password.'
-    ])->send();
-  }
-
-  /**
-   * Sign up new user and send access token to the user so that they could proceed with the app.
+   * Sign up new user and return it.
    * @param $signUpData
-   * @return Response
+   * @return User
    */
-  public function signUp($signUpData): Response
+  public function signUp($signUpData): User
   {
     $this->validateSignUp($signUpData);
 
@@ -68,45 +32,47 @@ class UserService
 
     $user = User::create($userData);
 
-    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-
-    return response([
-      'success' => true,
-      'message' => 'You have been successfully signed up.',
-      'user' => $user,
-      'token' => $token
-    ])->send();
+    return $user;
   }
 
   /**
-   * Sign user out. Destroy the user's access token.
-   * @param $signUpData
-   * @return Response
+   * If the user is not already signed in, validate the credentials (email, password), try to sign them in and
+   * return the result.
+   * @param $credentials
+   * @return bool
    */
-  public function signOut(): Response
+  public function signIn($credentials): bool
+  {
+    $this->validateSignIn($credentials);
+
+    return Auth::attempt($credentials);
+  }
+
+  /**
+   * Sign user out, i.e. destroy the user's access token and delete its record in the database.
+   * @param $signUpData
+   * @return void
+   */
+  public function signOut(): void
   {
     $token = Auth::user()->token();
     $token->revoke();
 
     Passport::token()->where('user_id', Auth::id())->delete();
-
-    return response([
-      'success' => true,
-      'message' => 'You have been successfully signed out.'
-    ])->send();
   }
 
-  public function resetPassword(User $user, string $newPassword)
+  /**
+   * Reset user's password by email. Just make a new hash and store it as a new password.
+   * @param string $email
+   * @param string $newPassword
+   * @return void
+   */
+  public function resetPassword(string $email, string $newPassword): void
   {
+    $user = User::firstWhere('email', $email);
+
     $user->password = Hash::make($newPassword);
     $user->save();
-
-    return response([
-      'success' => true,
-      'message' => 'Password reset successfully.',
-      'new_pass' => $user->password
-    ])->send();
-    die();
   }
 
   /**
@@ -129,7 +95,6 @@ class UserService
     ]);
 
     return response([
-      'success' => true,
       'message' => 'Here\'s your link for password reset.',
       'link' => $link
     ])->send();
@@ -187,7 +152,6 @@ class UserService
 
     if ($validator->fails()) {
       response([
-        'success' => false,
         'message' => 'Error trying to reset password.',
         'errors' => $validator->errors(),
       ], Response::HTTP_BAD_REQUEST)->send();
@@ -196,12 +160,12 @@ class UserService
   }
 
   /**
-   * Validate view reset password page request (token must exist).
+   * Validate reset password page request (token must exist).
    * If token doesn't exist, then it is probably a hacker, show error message.
    * @param string|null $token
    * @return void|Response
    */
-  public function validateViewResetPasswordPage(string|null $token)
+  public function validateResetPasswordPage(string|null $token)
   {
     $validator = Validator::make(['token' => $token], [
       'token' => 'required|exists:password_resets',
@@ -209,7 +173,6 @@ class UserService
 
     if ($validator->fails()) {
       response([
-        'success' => false,
         'message' => 'Such a password reset token doesn\'t exist. Are you a script kiddie?',
         'errors' => $validator->errors(),
       ], Response::HTTP_BAD_REQUEST)->send();
@@ -230,7 +193,6 @@ class UserService
 
     if ($validator->fails()) {
       response([
-        'success' => false,
         'message' => 'You have errors in your forgot password form request.',
         'errors' => $validator->errors(),
       ], Response::HTTP_BAD_REQUEST)->send();

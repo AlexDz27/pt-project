@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\UserService;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-// TODO: переместить все респонсы в контроллер...
 class AuthController extends Controller
 {
   private UserService $userService;
@@ -19,7 +20,14 @@ class AuthController extends Controller
 
   public function signUp(Request $request)
   {
-    $this->userService->signUp($request->post());
+    $user = $this->userService->signUp($request->post());
+    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+
+    return response([
+      'message' => 'You have been successfully signed up.',
+      'user' => $user,
+      'token' => $token
+    ]);
   }
 
   public function signIn(Request $request)
@@ -29,12 +37,32 @@ class AuthController extends Controller
       'password' => $request->post('password')
     ];
 
-    $this->userService->signIn($credentials);
+    $userSignedIn = $this->userService->signIn($credentials);
+
+    if (! $userSignedIn) {
+      return response([
+        'message' => 'Name and password mismatch. Try using different name or password.'
+      ], Response::HTTP_FORBIDDEN);
+    }
+
+    /** @var User $user */
+    $user = Auth::user();
+    $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+
+    return response([
+      'message' => "You have been successfully signed in. Welcome, {$user->name}.",
+      'user' => $user,
+      'token' => $token
+    ]);
   }
 
   public function signOut()
   {
     $this->userService->signOut();
+
+    return response([
+      'message' => 'You have been successfully signed out.'
+    ]);
   }
 
   public function resetPassword(Request $request)
@@ -48,16 +76,23 @@ class AuthController extends Controller
       ->select('email')
       ->where('token', $token)
       ->value('email');
-    $user = User::firstWhere('email', $email);
 
-    $this->userService->resetPassword($user, $newPassword);
+    $this->userService->resetPassword($email, $newPassword);
+
+    return response([
+      'message' => 'Password has been reset successfully.',
+    ]);
   }
 
-  public function viewResetPasswordPage(Request $request)
+  public function resetPasswordPage(Request $request)
   {
     $token = $request->get('token');
 
-    $this->userService->validateViewResetPasswordPage($token);
+    $this->userService->validateResetPasswordPage($token);
+
+    return response([
+      'message' => 'You may now proceed with resetting your password.'
+    ]);
   }
 
   public function forgotPassword(Request $request)
