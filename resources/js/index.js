@@ -3,19 +3,19 @@ import '../scss/index.scss';
 import { createRouter, createWebHistory } from 'vue-router';
 import { createApp } from 'vue';
 import App from './components/App';
-import Home from './components/Home';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import About from './components/About';
-import NotFound from './components/NotFound';
+import Home from './components/routes/Home';
+import SignIn from './components/routes/SignIn';
+import SignUp from './components/routes/SignUp';
+import About from './components/routes/About';
+import NotFound from './components/routes/NotFound';
 
 const routes = [
-  { path: '/', component: Home },
+  { path: '/', name: 'home', component: Home },
 
-  { path: '/sign-in', component: SignIn },
-  { path: '/sign-up', component: SignUp },
+  { path: '/sign-in', name: 'sign-in', component: SignIn },
+  { path: '/sign-up', name: 'sign-up', component: SignUp },
 
-  { path: '/about', component: About },
+  { path: '/about', name: 'about', component: About },
 
   { path: '/:pathMatch(.*)*', component: NotFound },
 ];

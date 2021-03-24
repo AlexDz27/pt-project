@@ -1,4 +1,6 @@
 <template>
+  <Header />
+
   <section class="hero">
     <section class="d-flex justify-content-center">
       <form @submit.prevent="log" class="property-search app__property-search">
@@ -20,7 +22,16 @@
         <span class="call-to-action__part bg-indigo-400">hotels & make assets! 💰</span>
       </h1>
     </div>
-
-    <router-link to="/about">About page</router-link>
   </section>
+
+  <Footer />
 </template>
+
+<script>
+import Header from '../Header';
+import Footer from '../Footer';
+
+export default {
+  components: { Header, Footer }
+}
+</script>
