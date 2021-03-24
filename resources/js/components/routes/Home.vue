@@ -24,8 +24,6 @@
     </div>
   </section>
 
-  <router-link :to="{name: 'about'}">Go to about page</router-link>
-
   <Footer />
 </template>
 

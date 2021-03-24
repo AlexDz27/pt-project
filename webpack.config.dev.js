@@ -4,7 +4,7 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   mode: 'development',
-  devtool: 'eval-cheap-source-map',
+  devtool: 'eval-source-map',
   entry: './resources/js/index.js',
   output: {
     path: path.resolve('./public'),

@@ -6,6 +6,10 @@
 
         <router-link :to="{name: 'about'}" class="mr-6">About us</router-link>
 
+        <span v-if="user.isSignedIn" class="mr-6">
+          Welcome, <b>{{ user.profile.name }}</b>
+        </span>
+
         <div class="app__auth" v-if="! user.isSignedIn">
           <router-link class="btn btn-outline-primary" :to="{name: 'sign-in'}">Sign in</router-link>
           &nbsp;

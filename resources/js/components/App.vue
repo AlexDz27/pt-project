@@ -8,6 +8,8 @@
 
 <script>
 import { User } from '../modules/User';
+import { parseJwt } from '../utils/parseJwt';
+import { ApiCaller } from '../modules/ApiCaller';
 
 export default {
   data() {
@@ -19,8 +21,20 @@ export default {
     }
   },
 
-  mounted() {
+  // Initialize user session if user already has token. Happens on app reload.
+  async created() {
+    const currentToken = localStorage.getItem('token');
+    if (currentToken === null) return;
 
+    const currentUserId = parseJwt(currentToken).sub;
+
+    const response = await ApiCaller.getUserById(currentUserId);
+    const result = await response.json();
+
+    const userProfile = result.user;
+
+    this.user.profile = userProfile;
+    this.user.isSignedIn = true;
   },
 
   methods: {

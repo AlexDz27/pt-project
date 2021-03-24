@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use \App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //  return $request->user();
@@ -20,5 +21,7 @@ Route::prefix('auth')->group(function() {
   /** Protected routes */
   Route::middleware('auth:api')->get('/sign-out', [AuthController::class, 'signOut']);
 });
+
+Route::get('/user/{id}', [UserController::class, 'view']);
 
 Route::middleware('auth:api')->get('/search', [SearchController::class, 'index']);

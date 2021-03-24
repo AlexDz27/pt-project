@@ -11,6 +11,12 @@ export class User {
     return Boolean(localStorage.getItem('token'));
   }
 
+  static initializeIfHasToken() {
+    const currentToken = localStorage.getItem('token');
+
+    this.signIn(currentToken);
+  }
+
   static storeToken(token) {
     localStorage.setItem('token', token);
   }

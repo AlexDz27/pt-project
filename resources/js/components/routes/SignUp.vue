@@ -54,6 +54,7 @@
 <script>
 import Header from '../Header';
 import Footer from '../Footer';
+import {ApiCaller} from '../../modules/ApiCaller';
 
 export default {
   components: { Header, Footer },
@@ -73,13 +74,7 @@ export default {
   },
   methods: {
     async submitSignUp() {
-      const response = await fetch(window.API_URL + '/auth/sign-up', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(this.form)
-      });
+      const response = ApiCaller.signUp(this.form);
       const result = await response.json();
 
       this.errors = result.errors;
