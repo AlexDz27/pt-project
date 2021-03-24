@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :user="user" :signOutUser="() => $emit('signOutUser')" />
 
   <div class="container">
     <div class="row">
@@ -19,6 +19,9 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default {
-  components: { Header, Footer }
+  components: {Header, Footer},
+  props: {
+    user: Object,
+  },
 }
 </script>

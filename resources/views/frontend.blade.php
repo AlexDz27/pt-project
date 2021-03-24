@@ -18,6 +18,9 @@
 
 <div id="app" class="app"></div>
 
+<script>
+  window.API_URL = '{{ config('app.api_url') }}';
+</script>
 <script src="/js/index.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :user="user" />
 
   <div class="container">
     <div class="row">
@@ -8,18 +8,30 @@
       <div class="col">
         <h1 class="text-center">Sign up</h1>
 
-        <form @submit.prevent="">
+        <form @submit.prevent="submitSignUp">
           <div class="mb-3">
             <label for="name" class="form-label">Username</label>
-            <input class="form-control" id="name" required>
+            <input v-model="form.name" class="form-control" :class="{'is-invalid': errors?.name}"
+                   id="name" name="name">
+            <div v-for="error in errors?.name" class="invalid-feedback">
+              {{ error }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+            <input v-model="form.email" class="form-control" :class="{'is-invalid': errors?.email}"
+                   id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+            <div v-for="error in errors?.email" class="invalid-feedback">
+              {{ error }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" required minlength="3">
+            <input v-model="form.password" type="password" class="form-control" :class="{'is-invalid': errors?.password}"
+                   id="exampleInputPassword1" name="password">
+            <div v-for="error in errors?.password" class="invalid-feedback">
+              {{ error }}
+            </div>
             <div id="passwordHelpBlock" class="form-text">
               Your password must be at least 3 characters long.
             </div>
@@ -44,6 +56,43 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default {
-  components: { Header, Footer }
+  components: { Header, Footer },
+  props: {
+    user: Object
+  },
+  emits: ['signInUser'],
+  data() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        password: ''
+      },
+      errors: {}
+    }
+  },
+  methods: {
+    async submitSignUp() {
+      const response = await fetch(window.API_URL + '/auth/sign-up', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(this.form)
+      });
+      const result = await response.json();
+
+      this.errors = result.errors;
+      if (this.errors) return;
+
+      alert('You\'ve successfully signed up.');
+
+      const user = {
+        profile: result.user,
+        token: result.token
+      };
+      this.$emit('signInUser', user);
+    }
+  }
 }
 </script>

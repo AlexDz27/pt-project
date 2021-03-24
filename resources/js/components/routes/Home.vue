@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :user="user" :signOutUser="() => $emit('signOutUser')" />
 
   <section class="hero">
     <section class="d-flex justify-content-center">
@@ -24,6 +24,8 @@
     </div>
   </section>
 
+  <router-link :to="{name: 'about'}">Go to about page</router-link>
+
   <Footer />
 </template>
 
@@ -32,6 +34,10 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default {
-  components: { Header, Footer }
+  emits: ['signOutUser'],
+  components: { Header, Footer },
+  props: {
+    user: Object
+  },
 }
 </script>

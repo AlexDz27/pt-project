@@ -14,6 +14,7 @@ const routes = [
 
   { path: '/sign-in', name: 'sign-in', component: SignIn },
   { path: '/sign-up', name: 'sign-up', component: SignUp },
+  { path: '/sign-out', redirect: '/' },
 
   { path: '/about', name: 'about', component: About },
 
