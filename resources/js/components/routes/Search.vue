@@ -4,15 +4,49 @@
   <section class="container">
     <div class="row">
       <div class="col-6">
-        <h1 class="display-4">Found locations</h1>
+        <h1 class="display-4 mb-7">Found locations</h1>
 
         <div>
           <button class="location-tab">
-            <div class="location-tab__photo"></div>
+            <div class="location-tab__photo-container">
+              <img class="location-tab__photo" width="300" height="200" src="https://a0.muscache.com/im/pictures/e855f284-bbe8-49b0-b557-eb11d1f42159.jpg?im_w=720" alt="Location">
+            </div>
 
-            <span class="location-tab__content">
+            <div class="location-tab__content">
+              <h4>Apartment "Temptation height"</h4>
 
-            </span>
+              <hr class="location-tab-separator location-tab__separator">
+
+              <div class="location-tab__amenities-container">
+                <span class="location-tab__amenity">
+                  1 bedroom
+                </span>
+                <span class="location-tab__amenity">
+                  Wifi
+                </span>
+              </div>
+            </div>
+          </button>
+
+          <button class="location-tab">
+            <div class="location-tab__photo-container">
+              <span class="location-tab__no-photo">No photo</span>
+            </div>
+
+            <div class="location-tab__content">
+              <h4>Apartment "Temptation height"</h4>
+
+              <hr class="location-tab-separator location-tab__separator">
+
+              <div class="location-tab__amenities-container">
+                <span class="location-tab__amenity">
+                  1 bedroom
+                </span>
+                <span class="location-tab__amenity">
+                  Wifi
+                </span>
+              </div>
+            </div>
           </button>
         </div>
       </div>
