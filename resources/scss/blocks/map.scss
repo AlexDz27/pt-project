@@ -1,0 +1,5 @@
+.map {
+  background-color: gray;
+  height: calc(100vh - 70px - 104px); // extracting from heights of nav and footer
+  min-width: 300px;
+}
