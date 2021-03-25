@@ -68,6 +68,7 @@ import Footer from '../Footer';
 
 import '../../../../node_modules/leaflet/dist/leaflet.css';
 import '../../../../node_modules/leaflet/dist/leaflet';
+import { fetchLocations } from '../../modules/fetchLocations';
 
 export default {
   emits: ['signOutUser'],
@@ -77,6 +78,10 @@ export default {
   },
   mounted() {
     this.initializeMap();
+
+    const locations = fetchLocations();
+
+    // TODO: continue...
   },
   methods: {
     initializeMap() {
