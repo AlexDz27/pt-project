@@ -1,6 +1,8 @@
 <template>
   <router-view
     :user="user"
+    :searchParams="searchParams"
+    @submitSearchParams="onSubmitSearchParams"
     @signInUser="onSignInUser"
     @signOutUser="onSignOutUser"
   />
@@ -17,6 +19,11 @@ export default {
       user: {
         isSignedIn: false,
         profile: null
+      },
+
+      searchParams: {
+        city: '',
+        bedrooms: '1'
       }
     }
   },
@@ -38,6 +45,14 @@ export default {
   },
 
   methods: {
+    onSubmitSearchParams() {
+      console.log(123123)
+
+      console.log(this.searchParams)
+
+      this.$router.replace({name: 'search'});
+    },
+
     onSignInUser(user) {
       User.signIn(user.token);
 

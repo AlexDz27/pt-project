@@ -3,13 +3,13 @@
 
   <section class="hero">
     <section class="d-flex justify-content-center">
-      <form @submit.prevent="log" class="property-search app__property-search">
-        <input class="form-control mb-2" name="location" placeholder="Enter location" required>
-        <label class="text-white" for="bedroom">Select type of the bedroom:</label>
-        <select class="form-select mb-2" name="bedroom" id="bedroom">
-          <option value="one">1</option>
-          <option value="two">2</option>
-          <option value="three">3</option>
+      <form @submit.prevent="() => $emit('submitSearchParams')" class="property-search app__property-search">
+        <input v-model="searchParams.city" class="form-control mb-2" placeholder="London" required>
+        <label class="text-white" for="bedrooms">Select bedrooms quantity:</label>
+        <select v-model="searchParams.bedrooms" class="form-select mb-2" id="bedrooms">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
         </select>
         <br>
         <button class="btn btn-success w-100" type="submit">Search</button>
@@ -32,10 +32,11 @@ import Header from '../Header';
 import Footer from '../Footer';
 
 export default {
-  emits: ['signOutUser'],
+  emits: ['signOutUser', 'submitSearchParams'],
   components: { Header, Footer },
   props: {
-    user: Object
+    user: Object,
+    searchParams: Object
   },
 }
 </script>

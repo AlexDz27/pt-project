@@ -7,13 +7,13 @@
         <h1 class="display-4 mb-7">Found locations</h1>
 
         <div class="locations-list">
-          <button class="location-tab">
+          <button v-for="location in this.listedLocations" class="location-tab">
             <div class="location-tab__photo-container">
               <span class="location-tab__no-photo">No photo</span>
             </div>
 
             <div class="location-tab__content">
-              <h4>Apartment "Temptation height"</h4>
+              <h4>{{ location.name }}</h4>
 
               <hr class="location-tab-separator location-tab__separator">
 
@@ -24,6 +24,10 @@
                 <span class="location-tab__amenity">
                   Wifi
                 </span>
+              </div>
+
+              <div class="location-tab__price">
+                <b>{{ location.price }}</b> / night
               </div>
             </div>
           </button>
@@ -47,27 +51,42 @@ import Footer from '../Footer';
 
 import '../../../../node_modules/leaflet/dist/leaflet.css';
 import '../../../../node_modules/leaflet/dist/leaflet';
-import { fetchLocations } from '../../modules/fetchLocations';
+import { fetchLocationsByBedrooms } from '../../modules/fetchLocations';
+import { htmlToElement } from '../../utils/htmlToElement';
 
 export default {
   emits: ['signOutUser'],
   components: {Header, Footer},
   props: {
-    user: Object
+    user: Object,
+    searchParams: Object
+  },
+  data() {
+    return {
+      locations: [],
+      listedLocations: []
+    }
+  },
+  created() {
+    this.locations = fetchLocationsByBedrooms(this.searchParams.bedrooms);
+
+    this.listedLocations = this.locations.slice(0, 10);
   },
   mounted() {
     this.createList();
 
-    // this.createMap();
+    this.createMap();
   },
   methods: {
     createList() {
-      console.log('123')
+      console.log('TODO CREATE LIST')
     },
 
     createMap() {
-      const map = L.map('map').setView([51.505, -0.09], 13);
-
+      // Center map on first location
+      const firstLocation = this.listedLocations[0];
+      const map = L.map('map').setView([firstLocation.latitude, firstLocation.longitude], 13);
+      // Truly create map
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYWxleGR6IiwiYSI6ImNrbW9zMDJ0dzI3cnAydm56MnNwZDF0aTkifQ.2HElYSbyH6nuS_5Zy4EZFg', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         maxZoom: 18,
@@ -77,13 +96,31 @@ export default {
         accessToken: 'pk.eyJ1IjoiYWxleGR6IiwiYSI6ImNrbW9zMDJ0dzI3cnAydm56MnNwZDF0aTkifQ.2HElYSbyH6nuS_5Zy4EZFg'
       }).addTo(map);
 
-      const locations = fetchLocations();
+      // Show listed locations and make popups for them that direct user to separate location page
+      this.listedLocations.forEach((location) => {
+        const marker = L.marker([location.latitude, location.longitude], {
+          title: `${location.name}`,
+          riseOnHover: true
+        }).addTo(map);
 
-      for (let i = 0; i <= 10; i++) {
-        const location = locations[i];
+        const popupHtml = () => {
+          const linkHtml = `
+            <a href="/location/${location.id}">
+              <h5>${location.name}</h5>
+              <h6>${location.price} / night</h6>
+            </a>`
+          ;
+          const link = htmlToElement(linkHtml);
+          link.addEventListener('click', (evt) => {
+            evt.preventDefault();
 
-        L.marker([location.latitude, location.longitude]).addTo(map);
-      }
+            this.$router.push({name: 'location', params: {id: location.id}});
+          });
+
+          return link;
+        }
+        marker.bindPopup(popupHtml);
+      });
     }
   }
 };
