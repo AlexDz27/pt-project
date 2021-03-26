@@ -7,7 +7,7 @@
         <h1 class="display-4 mb-7">Found locations</h1>
 
         <div class="locations-list">
-          <button v-for="location in this.listedLocations" class="location-tab">
+          <a v-for="location in this.listedLocations" :href="`/location/${location.id}`" class="location-tab">
             <div class="location-tab__photo-container">
               <span class="location-tab__no-photo">No photo</span>
             </div>
@@ -30,14 +30,12 @@
                 <b>{{ location.price }}</b> / night
               </div>
             </div>
-          </button>
+          </a>
         </div>
       </div>
 
       <div class="col-6">
-        <div id="map" class="map">
-
-        </div>
+        <div id="map" class="map"></div>
       </div>
     </div>
   </section>
@@ -73,15 +71,15 @@ export default {
     this.listedLocations = this.locations.slice(0, 10);
   },
   mounted() {
-    this.createList();
+    console.log('!!!got into mounted of Search, should be the last!!!')
+    // Prevent unauthenticated users from accessing search
+    if (! this.user.isSignedIn) {
+      this.$router.push({name: 'access-denied'});
+    }
 
     this.createMap();
   },
   methods: {
-    createList() {
-      console.log('TODO CREATE LIST')
-    },
-
     createMap() {
       // Center map on first location
       const firstLocation = this.listedLocations[0];
@@ -105,17 +103,13 @@ export default {
 
         const popupHtml = () => {
           const linkHtml = `
-            <a href="/location/${location.id}">
+            <a href="/location/${location.id}" target="_blank">
               <h5>${location.name}</h5>
               <h6>${location.price} / night</h6>
             </a>`
           ;
-          const link = htmlToElement(linkHtml);
-          link.addEventListener('click', (evt) => {
-            evt.preventDefault();
 
-            this.$router.push({name: 'location', params: {id: location.id}});
-          });
+          const link = htmlToElement(linkHtml);
 
           return link;
         }

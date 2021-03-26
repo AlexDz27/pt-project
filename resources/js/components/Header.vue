@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header class="header">
     <nav class="app__nav navbar navbar-light py-4 bg-pur">
       <div class="container justify-content-end">
         <router-link :to="{name: 'home'}" class="mr-6">Home</router-link>

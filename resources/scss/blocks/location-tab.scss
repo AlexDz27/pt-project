@@ -11,6 +11,12 @@
   text-align: left;
   padding-bottom: 25px;
   margin-bottom: 25px;
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
 
   &::after {
     content: '';

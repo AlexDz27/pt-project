@@ -9,3 +9,13 @@
 .app__nav {
   background-color: variables.$app__nav-bg-color;
 }
+
+.app-fixed-header {
+  padding-top: 70px;
+}
+
+.app-fixed-header .header {
+  position: fixed;
+  right: 30px;
+  top: 0;
+}

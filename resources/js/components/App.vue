@@ -1,11 +1,13 @@
 <template>
-  <router-view
-    :user="user"
-    :searchParams="searchParams"
-    @submitSearchParams="onSubmitSearchParams"
-    @signInUser="onSignInUser"
-    @signOutUser="onSignOutUser"
-  />
+  <div class="app" :class="$route.name === 'search' ? 'app-fixed-header' : ''">
+    <router-view
+      :user="user"
+      :searchParams="searchParams"
+      @submitSearchParams="onSubmitSearchParams"
+      @signInUser="onSignInUser"
+      @signOutUser="onSignOutUser"
+    />
+  </div>
 </template>
 
 <script>
@@ -34,11 +36,13 @@ export default {
     if (currentToken === null) return;
 
     const currentUserId = parseJwt(currentToken).sub;
+    console.log('curUserId', currentUserId)
 
     const response = await ApiCaller.getUserById(currentUserId);
     const result = await response.json();
 
     const userProfile = result.user;
+    console.log('got to userProfile', userProfile)
 
     this.user.profile = userProfile;
     this.user.isSignedIn = true;
@@ -46,9 +50,11 @@ export default {
 
   methods: {
     onSubmitSearchParams() {
-      console.log(123123)
+      if (! this.user.isSignedIn) {
+        this.$router.push({name: 'sign-up'});
 
-      console.log(this.searchParams)
+        return;
+      }
 
       this.$router.replace({name: 'search'});
     },

@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div id="app" class="app"></div>
+<div id="app"></div>
 
 <script>
   window.API_URL = '{{ config('app.api_url') }}';
