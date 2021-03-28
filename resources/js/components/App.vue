@@ -25,7 +25,7 @@ export default {
 
       searchParams: {
         city: '',
-        bedrooms: '1'
+        bedrooms: ''
       }
     }
   },

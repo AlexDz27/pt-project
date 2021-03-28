@@ -7,6 +7,7 @@
         <input v-model="searchParams.city" class="form-control mb-2" placeholder="London" required>
         <label class="text-white" for="bedrooms">Select bedrooms quantity:</label>
         <select v-model="searchParams.bedrooms" class="form-select mb-2" id="bedrooms">
+          <option value="" selected>Doesn't matter</option>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>

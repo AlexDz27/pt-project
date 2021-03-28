@@ -3,7 +3,11 @@
 
   <section class="container">
     <div class="row">
-      <div class="col-6">
+      <div v-if="this.locations.length === 0" class="col-6">
+        <h1>Sorry, no results found.</h1>
+      </div>
+
+      <div v-else class="col-6">
         <h1 class="display-4 mb-7">Found locations</h1>
 
         <div class="locations-list">
@@ -14,6 +18,7 @@
 
             <div class="location-tab__content">
               <h4>{{ location.name }}</h4>
+              <h5>{{ location.city }}</h5>
 
               <hr class="location-tab-separator location-tab__separator">
 
@@ -49,7 +54,7 @@ import Footer from '../Footer';
 
 import '../../../../node_modules/leaflet/dist/leaflet.css';
 import '../../../../node_modules/leaflet/dist/leaflet';
-import { fetchLocationsByBedrooms } from '../../modules/fetchLocations';
+import { ApiCaller } from '../../modules/ApiCaller';
 import { htmlToElement } from '../../utils/htmlToElement';
 
 export default {
@@ -61,17 +66,21 @@ export default {
   },
   data() {
     return {
+      locationsSearch: {},
       locations: [],
-      listedLocations: []
+      listedLocations: [],
     }
   },
-  created() {
+  async created() {
     // Prevent unauthenticated users from accessing search
     if (! this.user.isSignedIn) {
-      this.$router.push({name: 'access-denied'});
+      await this.$router.push({name: 'access-denied'});
     }
 
-    this.locations = fetchLocationsByBedrooms(this.searchParams.bedrooms);
+    this.locationsSearch = await ApiCaller.searchLocations(this.searchParams, localStorage.getItem('token'));
+    this.locations = this.locationsSearch.data;
+
+    console.log('this.locations', this.locations)
 
     this.listedLocations = this.locations.slice(0, 10);
   },
