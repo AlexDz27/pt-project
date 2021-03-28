@@ -7,7 +7,7 @@
         <h1 class="display-4 mb-7">Found locations</h1>
 
         <div class="locations-list">
-          <a v-for="location in this.listedLocations" :href="`/location/${location.id}`" class="location-tab">
+          <a v-for="location in this.listedLocations" :href="`/locations/${location.id}`" class="location-tab" target="_blank">
             <div class="location-tab__photo-container">
               <span class="location-tab__no-photo">No photo</span>
             </div>
@@ -68,7 +68,6 @@ export default {
   created() {
     // Prevent unauthenticated users from accessing search
     if (! this.user.isSignedIn) {
-      this.$router.push({name: 'home'});
       this.$router.push({name: 'access-denied'});
     }
 
@@ -103,7 +102,7 @@ export default {
 
         const popupHtml = () => {
           const linkHtml = `
-            <a href="/location/${location.id}" target="_blank">
+            <a href="/locations/${location.id}" target="_blank">
               <h5>${location.name}</h5>
               <h6>$${location.price} / night</h6>
             </a>`

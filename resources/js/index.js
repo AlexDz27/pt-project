@@ -21,7 +21,7 @@ const routes = [
 
   { path: '/search', name: 'search', component: Search },
 
-  { path: '/location/:id', name: 'location', component: Location },
+  { path: '/locations/:id', name: 'location', component: Location },
 
   { path: '/about', name: 'about', component: About },
 

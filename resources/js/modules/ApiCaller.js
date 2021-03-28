@@ -1,4 +1,14 @@
 export class ApiCaller {
+  static async getLocationById(id, token) {
+    const response = await fetch(window.API_URL + '/locations/' + id, {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+
+    return response;
+  }
+
   static async getUserById(id) {
     const response = await fetch(window.API_URL + '/user/' + id);
 
