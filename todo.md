@@ -2,8 +2,6 @@
 
 
 # Would be nice to do
-## User service validation
-Need to make saner error messages.
+## AJAX city match in search on home page
 
-## Auth
-Create ability to reset password
+

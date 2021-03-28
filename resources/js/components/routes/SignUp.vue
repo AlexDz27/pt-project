@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     async submitSignUp() {
-      const response = ApiCaller.signUp(this.form);
+      const response = await ApiCaller.signUp(this.form);
       const result = await response.json();
 
       this.errors = result.errors;
@@ -86,6 +86,7 @@ export default {
         profile: result.user,
         token: result.token
       };
+      // Sign in user after signing up
       this.$emit('signInUser', user);
     }
   }
