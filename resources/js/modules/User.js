@@ -1,10 +1,12 @@
 export class User {
-  static signIn(token) {
+  static signIn(token, profile) {
     this.storeToken(token);
+    this.storeProfile(profile);
   }
 
   static signOut() {
-    this.deleteToken();
+    this.clearToken();
+    this.clearProfile();
   }
 
   static signedIn() {
@@ -17,11 +19,19 @@ export class User {
     this.signIn(currentToken);
   }
 
+  static storeProfile(profile) {
+    localStorage.setItem('profile', JSON.stringify(profile));
+  }
+
   static storeToken(token) {
     localStorage.setItem('token', token);
   }
 
-  static deleteToken() {
+  static clearProfile() {
+    localStorage.removeItem('profile');
+  }
+
+  static clearToken() {
     localStorage.removeItem('token');
   }
 }

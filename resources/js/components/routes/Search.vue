@@ -66,17 +66,17 @@ export default {
     }
   },
   created() {
+    // Prevent unauthenticated users from accessing search
+    if (! this.user.isSignedIn) {
+      this.$router.push({name: 'home'});
+      this.$router.push({name: 'access-denied'});
+    }
+
     this.locations = fetchLocationsByBedrooms(this.searchParams.bedrooms);
 
     this.listedLocations = this.locations.slice(0, 10);
   },
   mounted() {
-    console.log('!!!got into mounted of Search, should be the last!!!')
-    // Prevent unauthenticated users from accessing search
-    if (! this.user.isSignedIn) {
-      this.$router.push({name: 'access-denied'});
-    }
-
     this.createMap();
   },
   methods: {

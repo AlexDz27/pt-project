@@ -30,22 +30,10 @@ export default {
     }
   },
 
-  // Initialize user session if user already has token. Happens on app reload.
+  // Initialize user session in frontend when app starts, for example, to manage "Sign in", "Sign out" proper handling in header
   async created() {
-    const currentToken = localStorage.getItem('token');
-    if (currentToken === null) return;
-
-    const currentUserId = parseJwt(currentToken).sub;
-    console.log('curUserId', currentUserId)
-
-    const response = await ApiCaller.getUserById(currentUserId);
-    const result = await response.json();
-
-    const userProfile = result.user;
-    console.log('got to userProfile', userProfile)
-
-    this.user.profile = userProfile;
-    this.user.isSignedIn = true;
+    this.user.profile = JSON.parse(localStorage.getItem('profile'));
+    this.user.isSignedIn = !!this.user.profile;
   },
 
   methods: {
@@ -60,7 +48,7 @@ export default {
     },
 
     onSignInUser(user) {
-      User.signIn(user.token);
+      User.signIn(user.token, user.profile);
 
       this.user.profile = user.profile;
       this.user.isSignedIn = true;
