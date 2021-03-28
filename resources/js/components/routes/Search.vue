@@ -27,7 +27,7 @@
               </div>
 
               <div class="location-tab__price">
-                <b>{{ location.price }}</b> / night
+                <b>${{ location.price }}</b> / night
               </div>
             </div>
           </a>
@@ -105,7 +105,7 @@ export default {
           const linkHtml = `
             <a href="/location/${location.id}" target="_blank">
               <h5>${location.name}</h5>
-              <h6>${location.price} / night</h6>
+              <h6>$${location.price} / night</h6>
             </a>`
           ;
 
