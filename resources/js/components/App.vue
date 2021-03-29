@@ -44,7 +44,7 @@ export default {
         return;
       }
 
-      this.$router.replace({name: 'search'});
+      this.$router.push({name: 'search'});
     },
 
     onSignInUser(user) {

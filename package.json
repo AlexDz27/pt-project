@@ -29,6 +29,7 @@
   "dependencies": {
     "bootstrap": "^5.0.0-beta2",
     "leaflet": "^1.7.1",
+    "nouislider": "^14.6.4",
     "tailwindcss": "^2.0.3",
     "vue": "^3.0.7"
   }
