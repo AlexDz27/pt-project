@@ -10,13 +10,16 @@
       <div class="col-6">
         <h1 v-if="this.locations.length > 0" class="display-4 mb-7">Found locations</h1>
 
-        <div>
+        <div class="mb-4">
           <div><b>Price, $:</b> [{{ this.searchPageParams.priceMin }} - {{ this.searchPageParams.priceMax }}]</div>
           <div id="slider"></div>
           <div class="d-flex justify-content-between">
             <b>0</b>
             <b>100</b>
           </div>
+
+          <b>Show order:</b>&nbsp;
+          <button @click="changePriceOrder" class="btn btn-success" title="Click to toggle">{{ priceOrderText }}</button>
         </div>
 
         <div v-if="this.locations.length !== 0" class="locations-list">
@@ -87,6 +90,7 @@ export default {
         bedrooms: null,
         priceMin: 5.00,
         priceMax: 100.00,
+        priceOrder: 'desc',
         page: 1
       },
       map: null,
@@ -105,6 +109,7 @@ export default {
       bedrooms: this.searchParams.bedrooms,
       priceMin: 5.00,
       priceMax: 100.00,
+      priceOrder: 'desc',
       page: 1
     };
 
@@ -158,6 +163,15 @@ export default {
 
       this.addPinsToMap();
     },
+    changePriceOrder() {
+      if (this.searchPageParams.priceOrder === 'desc') {
+        this.searchPageParams.priceOrder = 'asc';
+      } else if (this.searchPageParams.priceOrder === 'asc') {
+        this.searchPageParams.priceOrder = 'desc';
+      }
+
+      this.searchLocations();
+    },
     createMap() {
       this.map = L.map('map')
     },
@@ -201,6 +215,17 @@ export default {
         }
         marker.bindPopup(popupHtml);
       });
+    }
+  },
+  computed: {
+    priceOrderText() {
+      if (this.searchPageParams.priceOrder === 'desc') {
+        return 'Expansive to cheap';
+      }
+
+      if (this.searchPageParams.priceOrder === 'asc') {
+        return 'Cheap to expansive'
+      }
     }
   }
 };

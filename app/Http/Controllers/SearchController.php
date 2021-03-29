@@ -11,12 +11,15 @@ class SearchController extends Controller
   {
     $city = $request->get('city');
     $quantity = $request->get('quantity') ?? 10;
+
     $priceMin = $request->get('priceMin') ?? 0;
     $priceMax = $request->get('priceMax') ?? 10**9;
+    $priceOrder = $request->get('priceOrder') ?? 'desc';
 
     $locations = Location::where('city', 'like', "%${city}%")
       ->where('price', '>=', $priceMin)
-      ->where('price', '<=', $priceMax);
+      ->where('price', '<=', $priceMax)
+      ->orderBy('price', $priceOrder);
 
 
     if (! is_null($bedrooms = $request->get('bedrooms'))) {

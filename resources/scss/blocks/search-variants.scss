@@ -1,0 +1,15 @@
+.search-variants {
+  background-color: #fff;
+  color: black;
+  list-style: none;
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.search-variants__variant {
+  padding: 5px 0 5px 15px;
+
+  &:hover {
+    background-color: #e7e7e7;
+  }
+}
