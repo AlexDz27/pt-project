@@ -72,6 +72,8 @@ class UserService
 
     $user->password = Hash::make($newPassword);
     $user->save();
+
+    DB::table('password_resets')->where('email', $email)->delete();
   }
 
   /**
@@ -94,7 +96,6 @@ class UserService
     ]);
 
     return response([
-      'message' => 'Here\'s your link for password reset.',
       'link' => $link
     ])->send();
   }
@@ -144,9 +145,9 @@ class UserService
 
   public function validateResetPassword(string|null $token, string $newPassword)
   {
-    $validator = Validator::make(['token' => $token, 'new-password' => $newPassword], [
+    $validator = Validator::make(['token' => $token, 'password' => $newPassword], [
       'token' => 'required|exists:password_resets',
-      'new-password' => 'required|min:' . self::PASSWORD_MIN_CHARS,
+      'password' => 'required|min:' . self::PASSWORD_MIN_CHARS,
     ]);
 
     if ($validator->fails()) {

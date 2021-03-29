@@ -6,6 +6,8 @@ import App from './components/App';
 import Home from './components/routes/Home';
 import SignIn from './components/routes/SignIn';
 import SignUp from './components/routes/SignUp';
+import ForgotPassword from './components/routes/ForgotPassword';
+import ResetPassword from './components/routes/ResetPassword';
 import Search from './components/routes/Search';
 import Location from './components/routes/Location';
 import About from './components/routes/About';
@@ -18,6 +20,8 @@ const routes = [
   { path: '/sign-in', name: 'sign-in', component: SignIn },
   { path: '/sign-up', name: 'sign-up', component: SignUp },
   { path: '/sign-out', redirect: '/' },
+  { path: '/forgot-password', name: 'forgot-password', component: ForgotPassword },
+  { path: '/reset-password/:token', name: 'reset-password', component: ResetPassword },
 
   { path: '/search', name: 'search', component: Search },
 

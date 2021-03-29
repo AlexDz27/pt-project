@@ -10,7 +10,7 @@ class SearchController extends Controller
   public function index(Request $request)
   {
     $city = $request->get('city');
-    $quantity = $request->get('quantity') ?? 10;
+    $showCount = $request->get('showCount') ?? 10;
 
     $priceMin = $request->get('priceMin') ?? 0;
     $priceMax = $request->get('priceMax') ?? 10**9;
@@ -27,7 +27,7 @@ class SearchController extends Controller
     }
 
     return [
-      'locations' => $locations->paginate($quantity)
+      'locations' => $locations->paginate($showCount)
     ];
   }
 }

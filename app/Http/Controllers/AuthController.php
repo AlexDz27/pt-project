@@ -68,7 +68,7 @@ class AuthController extends Controller
   public function resetPassword(Request $request)
   {
     $token = $request->get('token');
-    $newPassword = $request->post('new-password');
+    $newPassword = $request->post('password');
 
     $this->userService->validateResetPassword($token, $newPassword);
 

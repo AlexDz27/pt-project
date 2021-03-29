@@ -37,6 +37,10 @@
         </form>
 
         <div class="text-center text-xl mt-4">
+          <router-link :to="{name: 'forgot-password'}">Forgot password?</router-link>
+        </div>
+
+        <div class="text-center text-xl mt-4">
           <router-link :to="{name: 'home'}">Go to home page</router-link>
         </div>
       </div>

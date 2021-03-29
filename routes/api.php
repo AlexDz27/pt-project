@@ -11,8 +11,8 @@ Route::prefix('auth')->group(function() {
   Route::post('/sign-in', [AuthController::class, 'signIn']);
 
   Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
-  Route::get('/reset-password/link', [AuthController::class, 'resetPasswordPage']);
-  Route::post('/reset-password/link', [AuthController::class, 'resetPassword']);
+  Route::get('/reset-password', [AuthController::class, 'resetPasswordPage']);
+  Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
   Route::middleware('auth:api')->get('/sign-out', [AuthController::class, 'signOut']);
 });

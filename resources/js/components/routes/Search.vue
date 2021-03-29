@@ -18,8 +18,15 @@
             <b>100</b>
           </div>
 
-          <b>Show order:</b>&nbsp;
-          <button @click="changePriceOrder" class="btn btn-success" title="Click to toggle">{{ priceOrderText }}</button>
+          <div class="mb-4">
+            <b>Show count:</b>&nbsp;
+            <input @input="changeShowCount" v-model="this.searchPageParams.showCount" style="width: 33px;">
+          </div>
+
+          <div>
+            <b>Show order:</b>&nbsp;
+            <button @click="changePriceOrder" class="btn btn-success" title="Click to toggle">{{ priceOrderText }}</button>
+          </div>
         </div>
 
         <div v-if="this.locations.length !== 0" class="locations-list">
@@ -90,6 +97,7 @@ export default {
         bedrooms: null,
         priceMin: 5.00,
         priceMax: 100.00,
+        showCount: 10,
         priceOrder: 'desc',
         page: 1
       },
@@ -109,6 +117,7 @@ export default {
       bedrooms: this.searchParams.bedrooms,
       priceMin: 5.00,
       priceMax: 100.00,
+      showCount: 10,
       priceOrder: 'desc',
       page: 1
     };
@@ -163,6 +172,9 @@ export default {
 
       this.addPinsToMap();
     },
+    changeShowCount() {
+      this.searchLocations();
+    },
     changePriceOrder() {
       if (this.searchPageParams.priceOrder === 'desc') {
         this.searchPageParams.priceOrder = 'asc';
@@ -176,6 +188,7 @@ export default {
       this.map = L.map('map')
     },
     addPinsToMap() {
+      // Remove existing pins
       this.map.eachLayer((layer) => {
         this.map.removeLayer(layer);
       });
