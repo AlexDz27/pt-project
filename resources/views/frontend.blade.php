@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-signin-client_id" content="{{ config('services.google.client_id') }}">
 
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="/img/favicon/apple-touch-icon.png">
@@ -20,6 +21,7 @@
 
 <script>
   window.API_URL = '{{ config('app.api_url') }}';
+  window.GOOGLE_CLIENT_ID = '{{ config('services.google.client_id') }}';
 </script>
 <script src="/js/index.js"></script>
 </body>

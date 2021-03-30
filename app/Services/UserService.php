@@ -23,13 +23,29 @@ class UserService
   {
     $this->validateSignUp($signUpData);
 
-    $userData = [
-      'name' => $signUpData['name'],
-      'email' => $signUpData['email'],
-      'password' => Hash::make($signUpData['password']),
-    ];
+    // Handle Google users
+    if (array_key_exists('googleId', $signUpData)) {
+      $userData = [
+        'name' => $signUpData['name'],
+        'email' => $signUpData['email'],
+        'google_id' => $signUpData['googleId']
+      ];
 
-    $user = User::create($userData);
+      $user = new User();
+      $user->name = $userData['name'];
+      $user->email = $userData['email'];
+      $user->google_id = $userData['google_id'];
+
+      $user->save();
+    } else {
+      $userData = [
+        'name' => $signUpData['name'],
+        'email' => $signUpData['email'],
+        'password' => Hash::make($signUpData['password']),
+      ];
+
+      $user = User::create($userData);
+    }
 
     return $user;
   }
@@ -107,11 +123,19 @@ class UserService
    */
   public function validateSignUp($signUpData)
   {
-    $validator = Validator::make($signUpData, [
-      'name' => 'required|unique:users',
-      'email' => 'required|email|unique:users',
-      'password' => 'required|min:' . self::PASSWORD_MIN_CHARS
-    ]);
+    // Handle Google users
+    if (array_key_exists('googleId', $signUpData)) {
+      $validator = Validator::make($signUpData, [
+        'name' => 'required|unique:users',
+        'email' => 'required|email|unique:users',
+      ]);
+    } else {
+      $validator = Validator::make($signUpData, [
+        'name' => 'required|unique:users',
+        'email' => 'required|email|unique:users',
+        'password' => 'required|min:' . self::PASSWORD_MIN_CHARS
+      ]);
+    }
 
     if ($validator->fails()) {
       response([

@@ -8,6 +8,7 @@ import SignIn from './components/routes/SignIn';
 import SignUp from './components/routes/SignUp';
 import ForgotPassword from './components/routes/ForgotPassword';
 import ResetPassword from './components/routes/ResetPassword';
+import SignInGoogle from './components/routes/SignInGoogle';
 import Search from './components/routes/Search';
 import Location from './components/routes/Location';
 import About from './components/routes/About';
@@ -22,6 +23,7 @@ const routes = [
   { path: '/sign-out', redirect: '/' },
   { path: '/forgot-password', name: 'forgot-password', component: ForgotPassword },
   { path: '/reset-password/:token', name: 'reset-password', component: ResetPassword },
+  { path: '/sign-in/google', name: 'sign-in-google', component: SignInGoogle },
 
   { path: '/search', name: 'search', component: Search },
 

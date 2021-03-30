@@ -56,6 +56,18 @@ export class ApiCaller {
     return response;
   }
 
+  static async signInViaGoogle(googleUserSignInData) {
+    const response = await fetch(window.API_URL + '/auth/oauth/google', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(googleUserSignInData)
+    });
+
+    return response;
+  }
+
   static async resetPassword(token, form) {
     const response = await fetch(window.API_URL + '/auth/reset-password?token=' + token, {
       method: 'POST',
