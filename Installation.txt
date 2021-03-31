@@ -1,0 +1,26 @@
+Installation:
+
+1) Download project
+
+# git clone https://github.com/AlexDz27/pt-project.git
+
+2) Install frontend dependencies
+# npm install
+
+2.1) Build frontend
+# npm run build:dev
+
+3) Install backend dependencies
+# composer install
+
+4) Add proper .env file. Insert proper host for database based on what docker network shows
+# contents of file...
+
+5) Grant permission for storage dir
+# sudo chmod -R 777 
+
+6) Put Openstreetmap icons into /public/css/images dir
+
+7) Load database data
+
+7) 
