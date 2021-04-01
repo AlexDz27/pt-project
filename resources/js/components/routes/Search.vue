@@ -10,7 +10,7 @@
       <div class="col-6">
         <h1 v-if="this.locations.length > 0" class="display-4 mb-7">Found locations</h1>
 
-        <div class="mb-4">
+        <div v-if="this.locations.length !== 0" class="mb-4">
           <div><b>Price, $:</b> [{{ this.searchPageParams.priceMin }} - {{ this.searchPageParams.priceMax }}]</div>
           <div id="slider"></div>
           <div class="d-flex justify-content-between">
@@ -54,7 +54,7 @@
           </a>
         </div>
 
-        <div>
+        <div v-if="this.locations.length !== 0">
           <button @click="goToPrevPage" v-if="this.searchPageParams.page > 1" class="btn btn-primary mr-6">&lt; Prev></button>
           <button @click="goToNextPage" class="btn btn-primary">Next ></button>
         </div>
@@ -125,6 +125,8 @@ export default {
     await this.searchLocations();
   },
   mounted() {
+    if (! document.querySelector('#map')) return;
+
     this.createMap();
 
     setTimeout(() => {
@@ -188,6 +190,8 @@ export default {
       this.map = L.map('map')
     },
     addPinsToMap() {
+      if (this.map === null) return;
+
       // Remove existing pins
       this.map.eachLayer((layer) => {
         this.map.removeLayer(layer);
